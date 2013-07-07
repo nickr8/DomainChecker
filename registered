@@ -1,0 +1,18 @@
+#!/bin/bash
+
+txtrst=$(tput sgr0) #text reset
+txtred=$(tput setaf 1) #red
+txtgreen=$(tput setaf 2) #green
+
+thisfile="$1"
+
+function writeFree {
+echo "$site" >> "$thisfile.free" 
+echo "${txtgreen}$site is free ${txtrst}"
+}
+
+input=`cat $1`
+for site in $input; do
+    ping &> /dev/null -c 1 "$site" > /dev/null && echo "${txtred}$site is registered ${txtrst}" || writeFree 
+done
+echo "All done!"
